@@ -1,4 +1,5 @@
 import { fileToBinary } from "@/utils/image-helper";
+import { toast } from "react-toastify";
 import { NeuroAxiosV2 } from "@/utils/neuro-axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
@@ -37,10 +38,13 @@ export const uploadImage = createAsyncThunk(
       thunkAPI.dispatch(
         updateProcessStatus({ processId, status: ProcessStatus.COMPLETED })
       );
+      toast.success("Image uploaded successfully");
+      console.log("image uploaded successfully");
     } catch (e) {
       thunkAPI.dispatch(
         updateProcessStatus({ processId, status: ProcessStatus.FAILED })
       );
+      toast.error("Image upload failed");
       console.log("error", e);
     }
   }

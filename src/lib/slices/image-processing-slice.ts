@@ -16,7 +16,12 @@ export const imageProcessingSlice = createSlice({
     addProcess: (state, action: PayloadAction<SingleProcessState>) => {
       return {
         ...state,
-        processes: [...state.processes, action.payload],
+        processes: [
+          ...state.processes.filter(
+            (process) => process.taskUuid !== action.payload.taskUuid
+          ),
+          action.payload,
+        ],
       };
     },
     updateProcessStatus: (

@@ -1,6 +1,8 @@
 import { Fragment, useCallback, useState } from "react";
 import { Button } from "./common/button";
 import { Squares2X2Icon, TableCellsIcon } from "@heroicons/react/24/outline";
+import { Spinner } from "./common/spinner";
+import { EmptyState } from "./common/empty-state";
 
 export enum ListContainerMode {
   GRID = "grid",
@@ -30,6 +32,7 @@ interface ListContainerProps<T> {
   }) => React.ReactNode;
   onFetchMore: () => void;
   onRefresh: () => void;
+  onEmptyStateClick?: () => void;
   hideSwitchMode?: boolean;
 }
 
@@ -44,10 +47,12 @@ export function ListContainer<T>({
   initialMode,
   keyProp,
   hideSwitchMode,
+  onEmptyStateClick,
   renderTableHeader,
   renderGridCard,
   renderRow,
   onFetchMore,
+  onRefresh,
 }: ListContainerProps<T>) {
   const [mode, setMode] = useState(() => initialMode || ListContainerMode.GRID);
   const [selection, setSelection] = useState<Record<string, boolean>>({});
@@ -83,12 +88,12 @@ export function ListContainer<T>({
           {!!subtitle && (
             <p className="text-lg text-gray-500 my-2 text-center">{subtitle}</p>
           )}
-          <div className="flex justify-between">
-            <p className="text-lg text-gray-500 text-center">
+          <div className="flex justify-between gap-4">
+            <p className="text-lg text-gray-500 text-center mt-1">
               Total: {list.length} / {total}
             </p>
+            <Button onClick={onRefresh}>Refresh</Button>
           </div>
-
           {!hideSwitchMode && (
             <div className="flex gap-2">
               <Button
@@ -138,12 +143,18 @@ export function ListContainer<T>({
           onClick={onFetchMore}
           disabled={loading || total <= list.length}
           className="mt-8 self-center"
+          loading={loading}
         >
           Fetch More
         </Button>
       )}
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
+      <div className="flex justify-center">
+        {!loading && !error && list.length === 0 && (
+          <EmptyState description="No data" onClick={onEmptyStateClick} />
+        )}
+        {loading && <Spinner size="large" />}
+        {error && <div>Error: {error}</div>}
+      </div>
     </div>
   );
 }
