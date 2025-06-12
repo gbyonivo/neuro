@@ -27,7 +27,7 @@ export function ItemWithSidePanel<T>({
         handleShowPanel: (val: boolean) => setShowPanel(val),
       })}
       <SidePanel
-        title="Item Details"
+        title="Task Details - Upload Images"
         open={showPanel}
         onClose={() => setShowPanel(false)}
       >

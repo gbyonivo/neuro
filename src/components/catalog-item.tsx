@@ -9,11 +9,11 @@ interface CatalogItemProps {
 export function CatalogItem({ item, isGrid = false }: CatalogItemProps) {
   const isNeedCapture = item.status === CatalogItemStatus.NEEDS_CAPTURE;
   const className = isNeedCapture
-    ? "border-red-700 bg-gray-300 dark:bg-gray-300"
-    : "border-gray-200 bg-gray-100 dark:bg-gray-100";
+    ? "border-2 border-red-700 bg-gray-300 dark:bg-gray-300"
+    : "bg-gray-100 dark:bg-gray-100";
   return isGrid ? (
     <div
-      className={`w-64 h-80  rounded-lg shadow-md p-4 flex flex-col relative overflow-hidden ${className} border-2`}
+      className={`w-64 h-80  rounded-lg shadow-md p-4 flex flex-col relative overflow-hidden ${className}`}
     >
       <Image
         className="w-full h-40 rounded-lg object-contain"

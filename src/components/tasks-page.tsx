@@ -3,12 +3,40 @@
 import { ListContainer, ListContainerMode } from "./list-container";
 import { useTasks } from "@/hooks/use-tasks";
 import { TaskItem } from "./task-item";
+import Link from "next/link";
+
+const tableHeaders = [
+  {
+    label: "Name",
+    className: "text-left",
+  },
+  {
+    label: "UUID",
+    className: "text-center",
+  },
+  {
+    label: "Realogram",
+    className: "text-left hidden lg:table-cell",
+  },
+  {
+    label: "Shares",
+    className: "text-left hidden lg:table-cell",
+  },
+  {
+    label: "Created At",
+    className: "text-center hidden lg:table-cell",
+  },
+  {
+    label: "Updated At",
+    className: "text-center hidden lg:table-cell",
+  },
+];
 
 export function TasksPage() {
   const { items, fetchTasks, isLoading, error, offset, total } = useTasks();
 
   return (
-    <div className="text-black dark:text-white">
+    <div className="text-black dark:text-white p-8">
       <ListContainer
         list={items}
         loading={isLoading}
@@ -22,11 +50,25 @@ export function TasksPage() {
         total={total}
         keyProp="uuid"
         initialMode={ListContainerMode.TABLE}
+        hideSwitchMode
+        title="Tasks"
+        subtitle={
+          <Link href="/" className="text-blue-500 text-sm underline">
+            View Catalog
+          </Link>
+        }
         renderTableHeader={() => (
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
+              {tableHeaders.map((header) => (
+                <th
+                  key={header.label}
+                  scope="col"
+                  className={`py-3.5 pr-3 pl-4 text-sm font-semibold text-black dark:text-white sm:pl-0 ${header.className}`}
+                >
+                  {header.label}
+                </th>
+              ))}
             </tr>
           </thead>
         )}

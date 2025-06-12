@@ -13,7 +13,7 @@ interface ListContainerProps<T> {
   error: string | null;
   listContainerClassName?: string;
   title?: string;
-  subtitle?: string;
+  subtitle?: string | React.ReactNode;
   total: number;
   keyProp: keyof T;
   initialMode?: ListContainerMode;
@@ -54,7 +54,7 @@ export function ListContainer<T>({
   const containerClassName =
     mode === ListContainerMode.GRID
       ? `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 ${listContainerClassName}`
-      : `${listContainerClassName} divide-y divide-gray-200`;
+      : `${listContainerClassName} divide-y divide-gray-200 w-full min-w-full divide-y divide-gray-300`;
 
   const toggleSelection = useCallback(
     (item: T) => {
@@ -87,25 +87,26 @@ export function ListContainer<T>({
             <p className="text-lg text-gray-500 text-center">
               Total: {list.length} / {total}
             </p>
-            {!hideSwitchMode && (
-              <div className="flex gap-2">
-                <Button
-                  data-id="grid-button"
-                  onClick={() => setMode(ListContainerMode.GRID)}
-                >
-                  <Squares2X2Icon className="w-4 h-4" />
-                  Grid
-                </Button>
-                <Button
-                  data-id="table-button"
-                  onClick={() => setMode(ListContainerMode.TABLE)}
-                >
-                  <TableCellsIcon className="w-4 h-4" />
-                  Table
-                </Button>
-              </div>
-            )}
           </div>
+
+          {!hideSwitchMode && (
+            <div className="flex gap-2">
+              <Button
+                data-id="grid-button"
+                onClick={() => setMode(ListContainerMode.GRID)}
+              >
+                <Squares2X2Icon className="w-4 h-4" />
+                Grid
+              </Button>
+              <Button
+                data-id="table-button"
+                onClick={() => setMode(ListContainerMode.TABLE)}
+              >
+                <TableCellsIcon className="w-4 h-4" />
+                Table
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       <div className={bodyClassName}>
@@ -132,13 +133,15 @@ export function ListContainer<T>({
         </Tag>
       </div>
 
-      <Button
-        onClick={onFetchMore}
-        disabled={loading || total <= list.length}
-        className="mt-8 self-center"
-      >
-        Fetch More
-      </Button>
+      {total > list.length && (
+        <Button
+          onClick={onFetchMore}
+          disabled={loading || total <= list.length}
+          className="mt-8 self-center"
+        >
+          Fetch More
+        </Button>
+      )}
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
     </div>

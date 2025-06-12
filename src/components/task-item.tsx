@@ -1,6 +1,7 @@
 import { Task } from "@/types/task";
 import { ItemWithSidePanel } from "./item-with-side-panel";
 import { TaskImageUpload } from "./task-image-upload";
+import { getDate } from "@/utils/date";
 
 interface TaskCardProps {
   item: Task;
@@ -23,7 +24,6 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
     />
   ) : (
     <tr key={item.uuid}>
-      <td>{item.name}</td>
       <td>
         <ItemWithSidePanel<Task>
           item={item}
@@ -39,6 +39,21 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
             </div>
           )}
         />
+      </td>
+      <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell text-center">
+        {item.uuid.substring(0, 8)}...
+      </td>
+      <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
+        {item.compute_realogram ? "Yes" : "No"}
+      </td>
+      <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
+        {item.compute_shares ? "Yes" : "No"}
+      </td>
+      <td className="hidden px-3 py-4 text-sm text-gray-500 text-center lg:table-cell">
+        {getDate(item.created_at)}
+      </td>
+      <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">
+        {getDate(item.updated_at)}
       </td>
     </tr>
   );
