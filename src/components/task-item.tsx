@@ -2,6 +2,7 @@ import { Task } from "@/types/task";
 import { ItemWithSidePanel } from "./item-with-side-panel";
 import { TaskImageUpload } from "./task-image-upload";
 import { getDate } from "@/utils/date";
+import { TaskResult } from "./task-result";
 
 interface TaskCardProps {
   item: Task;
@@ -28,7 +29,12 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
         <ItemWithSidePanel<Task>
           item={item}
           key={item.uuid}
-          renderSidePanelContent={({ item }) => <TaskImageUpload task={item} />}
+          renderSidePanelContent={({ item }) => (
+            <div className="flex flex-col justify-between h-full">
+              <TaskImageUpload task={item} />
+              <TaskResult task={item} />
+            </div>
+          )}
           renderItemContent={({ item, handleShowPanel }) => (
             <div
               className="cursor-pointer underline"
