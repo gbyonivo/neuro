@@ -2,7 +2,7 @@ import { Task } from "@/types/task";
 import { ItemWithSidePanel } from "./item-with-side-panel";
 import { TaskImageUpload } from "./task-image-upload";
 import { getDate } from "@/utils/date";
-import { TaskResult } from "./task-result";
+import Link from "next/link";
 
 interface TaskCardProps {
   item: Task;
@@ -24,30 +24,14 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
       )}
     />
   ) : (
-    <tr key={item.uuid}>
+    <tr key={item.uuid} className="hover:bg-gray-100 dark:hover:bg-gray-900">
       <td>
-        <ItemWithSidePanel<Task>
-          item={item}
-          key={item.uuid}
-          renderSidePanelContent={({ item }) => (
-            <div className="flex flex-col justify-between h-full">
-              <TaskImageUpload task={item} />
-              <TaskResult task={item} />
-            </div>
-          )}
-          renderItemContent={({ item, handleShowPanel }) => (
-            <div
-              className="cursor-pointer underline"
-              key={item.uuid}
-              onClick={() => handleShowPanel(true)}
-            >
-              {item.name}
-            </div>
-          )}
-        />
-      </td>
-      <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell text-center">
-        {item.uuid.substring(0, 8)}...
+        <Link
+          href={`/tasks/${item.uuid}/results`}
+          className="text-sm underline pl-2"
+        >
+          {item.name}
+        </Link>
       </td>
       <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
         {item.compute_realogram ? "Yes" : "No"}
@@ -60,6 +44,23 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
       </td>
       <td className="hidden px-3 py-4 text-sm text-center text-gray-500 lg:table-cell">
         {getDate(item.updated_at)}
+      </td>
+      <td className="px-3 py-4 text-sm text-gray-500 lg:table-cell text-center">
+        <ItemWithSidePanel<Task>
+          item={item}
+          key={item.uuid}
+          renderSidePanelContent={({ item }) => <TaskImageUpload task={item} />}
+          renderItemContent={({ item, handleShowPanel }) => (
+            <div
+              className="cursor-pointer underline text-blue-500 text-sm text-center w-full"
+              key={item.uuid}
+              onClick={() => handleShowPanel(true)}
+              role="button"
+            >
+              Upload Image
+            </div>
+          )}
+        />
       </td>
     </tr>
   );

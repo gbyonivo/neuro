@@ -8,11 +8,7 @@ import Link from "next/link";
 const tableHeaders = [
   {
     label: "Name",
-    className: "text-left",
-  },
-  {
-    label: "UUID",
-    className: "text-center",
+    className: "text-left pl-2",
   },
   {
     label: "Realogram",
@@ -29,6 +25,10 @@ const tableHeaders = [
   {
     label: "Updated At",
     className: "text-center hidden lg:table-cell",
+  },
+  {
+    label: "Action",
+    className: "text-center",
   },
 ];
 
@@ -64,7 +64,7 @@ export function TasksPage() {
                 <th
                   key={header.label}
                   scope="col"
-                  className={`py-3.5 pr-3 pl-4 text-sm font-semibold text-black dark:text-white sm:pl-0 ${header.className}`}
+                  className={`py-3.5 pr-3 text-sm font-semibold text-black dark:text-white  ${header.className}`}
                 >
                   {header.label}
                 </th>
