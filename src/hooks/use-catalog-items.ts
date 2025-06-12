@@ -7,7 +7,7 @@ import {
 } from "@/lib/slices/catalog-item-slice";
 import { useCallback, useEffect } from "react";
 import { useFetchItems } from "./use-items";
-import { CatalogItem } from "@/types/catalog-item";
+import { CatalogItemType } from "@/types/catalog-item";
 
 export const useCatalogItems = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export const useCatalogItems = () => {
     (state: RootState) => state.catalogItems
   );
 
-  const fetchCatalog = useFetchItems<CatalogItem>({
+  const fetchCatalog = useFetchItems<CatalogItemType>({
     onSuccess: useCallback(
       (data) => dispatch(fetchItemsSuccess(data)),
       [dispatch]

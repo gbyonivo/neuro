@@ -4,7 +4,7 @@ enum CatalogItemStatus {
   PROCESSING = "PROCESSING",
 }
 
-export interface CatalogItem {
+export interface CatalogItemType {
   uuid: string;
   status: CatalogItemStatus;
   thumbnail_url: string;
@@ -23,7 +23,7 @@ export interface CatalogItem {
   updated_at: string;
 }
 
-export function isCatalogItem(item: unknown): item is CatalogItem {
+export function isCatalogItem(item: unknown): item is CatalogItemType {
   return (
     typeof item === "object" &&
     item !== null &&
