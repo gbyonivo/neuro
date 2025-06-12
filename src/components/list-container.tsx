@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-enum ListContainerMode {
+export enum ListContainerMode {
   GRID = "grid",
   TABLE = "table",
 }
@@ -14,6 +14,7 @@ interface ListContainerProps<T> {
   subtitle?: string;
   total: number;
   keyProp: keyof T;
+  initialMode?: ListContainerMode;
   renderGridCard: (value: {
     item: T;
     toggleSelection: (item: T) => void;
@@ -36,12 +37,13 @@ export function ListContainer<T>({
   subtitle,
   list,
   total,
+  initialMode,
   keyProp,
   renderGridCard,
   renderRow,
   onFetchMore,
 }: ListContainerProps<T>) {
-  const [mode, setMode] = useState(() => ListContainerMode.GRID);
+  const [mode, setMode] = useState(() => initialMode || ListContainerMode.GRID);
   const [selection, setSelection] = useState<Record<string, boolean>>({});
   const containerClassName =
     mode === ListContainerMode.GRID
@@ -96,7 +98,9 @@ export function ListContainer<T>({
         })}
       </div>
 
-      <button onClick={onFetchMore}>Fetch More</button>
+      <button onClick={onFetchMore} disabled={loading || total <= list.length}>
+        Fetch More
+      </button>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
     </div>

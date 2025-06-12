@@ -1,9 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import catalogItemReducer from "./slices/catalog-item-slice";
+import taskReducer from "./slices/tasks-slice";
+
 export const makeStore = () => {
   return configureStore({
     reducer: {
       catalogItems: catalogItemReducer,
+      tasks: taskReducer,
     },
   });
 };

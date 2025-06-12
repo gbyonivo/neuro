@@ -1,18 +1,24 @@
+enum CatalogItemStatus {
+  READY = "READY",
+  NEEDS_CAPTURE = "NEEDS_CAPTURE",
+  PROCESSING = "PROCESSING",
+}
+
 export interface CatalogItem {
   uuid: string;
-  status: string;
+  status: CatalogItemStatus;
   thumbnail_url: string;
-  name: string;
-  barcode: string;
-  custom_id: string | null;
-  height: string | null;
-  width: string | null;
-  depth: string | null;
-  brand: string | null;
-  size: string | null;
-  container_type: string | null;
-  flavour: string | null;
-  packaging_size: string | null;
+  name?: string;
+  barcode?: string;
+  custom_id?: string;
+  height?: number;
+  width?: number;
+  depth?: number;
+  brand?: string;
+  size?: string;
+  container_type?: string;
+  flavour?: string;
+  packaging_size?: string;
   created_at: string;
   updated_at: string;
 }

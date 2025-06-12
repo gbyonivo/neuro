@@ -1,4 +1,4 @@
-import { PaginatedStore } from "@/types/stores/catalog-items-store";
+import { PaginatedStore } from "@/types/stores/paginated-store";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 export function createPaginationReducer<
