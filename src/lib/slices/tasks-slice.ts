@@ -12,7 +12,7 @@ const initialState: PaginatedStore<Task> = {
 };
 
 export const taskSlice = createSlice({
-  name: "catalogItem",
+  name: "tasks",
   initialState,
   reducers: {
     ...createPaginationReducer<PaginatedStore<Task>, Task>(),

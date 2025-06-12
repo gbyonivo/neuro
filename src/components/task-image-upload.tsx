@@ -1,54 +1,33 @@
+import { RootState } from "@/lib/store";
+import { uploadImage } from "@/lib/thunks/image-process";
+import { ProcessStatus } from "@/types/stores/image-processing-store";
 import { Task } from "@/types/task";
-import { NeuroAxiosV2 } from "@/utils/neuro-axios";
 import Image from "next/image";
 import { useCallback, useState } from "react";
-
-function fileToBinary(file: File) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result); // reader.result is an ArrayBuffer
-    reader.onerror = reject;
-    reader.readAsArrayBuffer(file);
-  });
-}
+import { useDispatch, useSelector } from "react-redux";
 
 interface ImageUploadProps {
   task: Task;
   onUploaded?: () => void;
 }
 
-export function TaskImageUpload({ task, onUploaded }: ImageUploadProps) {
-  console.log("task", task);
-  const [isUploading, setIsUploading] = useState(false);
+export function TaskImageUpload({ task }: ImageUploadProps) {
+  const { processes } = useSelector(
+    (state: RootState) => state.imageProcessing
+  );
+  const isUploading = processes.some(
+    (process) =>
+      process.taskUuid === task.uuid &&
+      process.status === ProcessStatus.PROCESSING
+  );
   const [image, setImage] = useState<File | null>(null);
+  const dispatch = useDispatch();
 
   const handleImageUpload = useCallback(() => {
-    const handle = async () => {
-      try {
-        if (!image) return;
-        setIsUploading(true);
-        const binaryData = await fileToBinary(image);
-        await NeuroAxiosV2.post(
-          `/image-recognition/tasks/${task.uuid}/images`,
-          {
-            images: binaryData,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        setIsUploading(false);
-        onUploaded?.();
-      } catch (e) {
-        setIsUploading(false);
-        console.log("error", e);
-      }
-    };
-
-    handle();
-  }, [image, task.uuid, onUploaded]);
+    if (!image) return;
+    // @ts-expect-error: TODO: fix this type issue
+    dispatch(uploadImage({ image, taskUuid: task.uuid }));
+  }, [image, task.uuid, dispatch]);
 
   return (
     <div>
@@ -68,7 +47,7 @@ export function TaskImageUpload({ task, onUploaded }: ImageUploadProps) {
           />
         </div>
       )}
-      <button onClick={handleImageUpload} disabled={isUploading}>
+      <button onClick={handleImageUpload} disabled={!image || isUploading}>
         {isUploading ? "Uploading..." : "Upload"}
       </button>
     </div>
