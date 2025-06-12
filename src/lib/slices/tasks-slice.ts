@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PaginatedStore } from "@/types/stores/paginated-store";
-import { CatalogItemType } from "@/types/catalog-item";
 import { createPaginationReducer } from "./commonReducers/pagination";
+import { Task } from "@/types/task";
 
-const initialState: PaginatedStore<CatalogItemType> = {
+const initialState: PaginatedStore<Task> = {
   items: [],
   isLoading: false,
   error: null,
@@ -11,18 +11,15 @@ const initialState: PaginatedStore<CatalogItemType> = {
   total: 0,
 };
 
-export const catalogItemSlice = createSlice({
-  name: "catalogItem",
+export const taskSlice = createSlice({
+  name: "tasks",
   initialState,
   reducers: {
-    ...createPaginationReducer<
-      PaginatedStore<CatalogItemType>,
-      CatalogItemType
-    >(),
+    ...createPaginationReducer<PaginatedStore<Task>, Task>(),
   },
 });
 
 export const { fetchItems, fetchItemsFailure, fetchItemsSuccess } =
-  catalogItemSlice.actions;
+  taskSlice.actions;
 
-export default catalogItemSlice.reducer;
+export default taskSlice.reducer;

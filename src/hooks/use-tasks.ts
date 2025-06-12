@@ -4,18 +4,18 @@ import {
   fetchItems,
   fetchItemsFailure,
   fetchItemsSuccess,
-} from "@/lib/slices/catalog-item-slice";
+} from "@/lib/slices/tasks-slice";
 import { useCallback, useEffect } from "react";
 import { useFetchItems } from "./use-items";
-import { CatalogItemType } from "@/types/catalog-item";
+import { Task } from "@/types/task";
 
-export const useCatalogItems = () => {
+export const useTasks = () => {
   const dispatch = useDispatch();
   const { items, isLoading, error, offset, total } = useSelector(
-    (state: RootState) => state.catalogItems
+    (state: RootState) => state.tasks
   );
 
-  const fetchCatalog = useFetchItems<CatalogItemType>({
+  const fetchTasks = useFetchItems<Task>({
     onSuccess: useCallback(
       (data) => dispatch(fetchItemsSuccess(data)),
       [dispatch]
@@ -27,14 +27,14 @@ export const useCatalogItems = () => {
     onStart: useCallback(() => {
       dispatch(fetchItems());
     }, [dispatch]),
-    url: "/catalog-items",
+    url: "/image-recognition/tasks",
   });
 
   useEffect(() => {
     if (items.length === 0) {
-      fetchCatalog({ limit: 10, offset: 0 });
+      fetchTasks({ limit: 10, offset: 0 });
     }
-  }, [items.length, fetchCatalog]);
+  }, [items.length, fetchTasks]);
 
-  return { items, fetchCatalog, isLoading, error, offset, total };
+  return { items, fetchTasks, isLoading, error, offset, total };
 };
