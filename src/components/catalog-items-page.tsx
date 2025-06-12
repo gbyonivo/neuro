@@ -22,6 +22,9 @@ export function CatalogItemsPage() {
         onFetchMore={() => fetchCatalog({ limit: 10, offset: offset + 10 })}
         total={total}
         keyProp="uuid"
+        title="Catalog"
+        subtitle="List items from the catalog"
+        hideSwitchMode
       />
     </div>
   );
