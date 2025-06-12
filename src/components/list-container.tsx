@@ -15,6 +15,7 @@ interface ListContainerProps<T> {
   total: number;
   keyProp: keyof T;
   initialMode?: ListContainerMode;
+  renderTableHeader?: () => React.ReactNode;
   renderGridCard: (value: {
     item: T;
     toggleSelection: (item: T) => void;
@@ -39,6 +40,7 @@ export function ListContainer<T>({
   total,
   initialMode,
   keyProp,
+  renderTableHeader,
   renderGridCard,
   renderRow,
   onFetchMore,
@@ -59,6 +61,9 @@ export function ListContainer<T>({
     },
     [keyProp]
   );
+
+  const Tag = mode === ListContainerMode.GRID ? "div" : "table";
+  const TagBody = mode === ListContainerMode.GRID ? "div" : "tbody";
 
   return (
     <div className="text-black dark:text-white">
@@ -81,22 +86,27 @@ export function ListContainer<T>({
           </button>
         </div>
       </div>
-      <div className={containerClassName}>
-        {list.map((item) => {
-          if (mode === ListContainerMode.GRID) {
-            return renderGridCard({
+      <Tag className={containerClassName}>
+        {mode === ListContainerMode.TABLE &&
+          renderTableHeader &&
+          renderTableHeader()}
+        <TagBody>
+          {list.map((item) => {
+            if (mode === ListContainerMode.GRID) {
+              return renderGridCard({
+                item,
+                toggleSelection,
+                isSelected: selection[item[keyProp] as string],
+              });
+            }
+            return renderRow({
               item,
               toggleSelection,
               isSelected: selection[item[keyProp] as string],
             });
-          }
-          return renderRow({
-            item,
-            toggleSelection,
-            isSelected: selection[item[keyProp] as string],
-          });
-        })}
-      </div>
+          })}
+        </TagBody>
+      </Tag>
 
       <button onClick={onFetchMore} disabled={loading || total <= list.length}>
         Fetch More
