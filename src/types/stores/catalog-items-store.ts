@@ -1,7 +1,5 @@
-import { CatalogItem } from "../catalog-item";
-
-export interface CatalogItemsStore {
-  catalogItems: CatalogItem[];
+export interface PaginatedStore<T> {
+  items: T[];
   isLoading: boolean;
   error: string | null;
   offset: number;

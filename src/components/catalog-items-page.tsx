@@ -4,7 +4,7 @@ import { useCatalogItems } from "@/hooks/use-catalog-items";
 import Link from "next/link";
 
 export function CatalogItemsPage() {
-  const { catalogItems, fetchCatalog, isLoading, error, offset, total } =
+  const { items, fetchCatalog, isLoading, error, offset, total } =
     useCatalogItems();
 
   return (
@@ -13,9 +13,9 @@ export function CatalogItemsPage() {
       <p>Total: {total}</p>
       <p>Is Loading: {isLoading ? "Yes" : "No"}</p>
       <p>Error: {error ? "Error" : "s"}</p>
-      {catalogItems.length > 0 && (
+      {items.length > 0 && (
         <div>
-          {catalogItems.map((item) => (
+          {items.map((item) => (
             <Link key={item.uuid} href={`/catalog-items/${item.uuid}`}>
               <div key={item.uuid}>{item.name}</div>
             </Link>
