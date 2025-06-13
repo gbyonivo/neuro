@@ -21,7 +21,7 @@ export function ResultsPage() {
           <ResultItem item={item} key={item.uuid} />
         )}
         renderBetweenHeaderAndBody={() =>
-          taskId ? (
+          taskId && !error && !isLoading ? (
             <TaskImageUpload
               taskId={taskId}
               containerClassName="flex justify-center space-x-4 -mt-8"
@@ -40,6 +40,16 @@ export function ResultsPage() {
             View Tasks
           </Link>
         }
+        renderError={(error) => (
+          <div>
+            <p className="text-red-500">Error: {error}</p>
+            <p className="text-sm">
+              <Link href="/tasks" className="text-blue-500 text-sm underline">
+                View List of Tasks
+              </Link>
+            </p>
+          </div>
+        )}
       />
     </div>
   );

@@ -7,7 +7,7 @@ import {
   fetchItemsSuccess,
 } from "@/lib/slices/results-slice";
 import { useCallback, useEffect } from "react";
-import { useFetchItems } from "./use-items";
+import { useFetchItems } from "./use-fetch-items";
 import { useParams } from "next/navigation";
 import { Result } from "@/types/result";
 

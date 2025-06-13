@@ -21,6 +21,7 @@ interface ListContainerProps<T> {
   initialMode?: ListContainerMode;
   hideSwitchMode?: boolean;
   renderTableHeader?: () => React.ReactNode;
+  renderError?: (error: string) => React.ReactNode;
   renderGridCard?: (value: {
     item: T;
     toggleSelection: (item: T) => void;
@@ -55,6 +56,7 @@ export function ListContainer<T>({
   renderBetweenHeaderAndBody,
   onFetchMore,
   onRefresh,
+  renderError,
 }: ListContainerProps<T>) {
   const [mode, setMode] = useState(() => initialMode || ListContainerMode.GRID);
   // TODO: get into selection mode and allow user to select catalog items to be used when creating a task
@@ -159,7 +161,8 @@ export function ListContainer<T>({
           <EmptyState description="No data" onClick={onEmptyStateClick} />
         )}
         {loading && <Spinner size="large" />}
-        {error && <div>Error: {error}</div>}
+        {error &&
+          (renderError?.("Error Fetching Data") || <div>Error: {error}</div>)}
       </div>
     </div>
   );

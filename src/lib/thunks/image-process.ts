@@ -36,13 +36,13 @@ export const uploadImage = createAsyncThunk(
         }
       );
       thunkAPI.dispatch(
-        updateProcessStatus({ processId, status: ProcessStatus.COMPLETED })
+        updateProcessStatus({ taskUuid, status: ProcessStatus.COMPLETED })
       );
       toast.success("Image uploaded successfully");
       console.log("image uploaded successfully");
     } catch (e) {
       thunkAPI.dispatch(
-        updateProcessStatus({ processId, status: ProcessStatus.FAILED })
+        updateProcessStatus({ taskUuid, status: ProcessStatus.FAILED })
       );
       toast.error("Image upload failed");
       console.log("error", e);

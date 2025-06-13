@@ -6,7 +6,7 @@ import {
   fetchItemsSuccess,
 } from "@/lib/slices/catalog-item-slice";
 import { useCallback, useEffect } from "react";
-import { useFetchItems } from "./use-items";
+import { useFetchItems } from "./use-fetch-items";
 import { CatalogItemType } from "@/types/catalog-item";
 
 export const useCatalogItems = () => {
