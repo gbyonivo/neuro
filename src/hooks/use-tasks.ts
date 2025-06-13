@@ -6,7 +6,7 @@ import {
   fetchItemsSuccess,
 } from "@/lib/slices/tasks-slice";
 import { useCallback, useEffect } from "react";
-import { useFetchItems } from "./use-items";
+import { useFetchItems } from "./use-fetch-items";
 import { Task } from "@/types/task";
 
 export const useTasks = () => {

@@ -1,4 +1,4 @@
-enum CatalogItemStatus {
+export enum CatalogItemStatus {
   READY = "READY",
   NEEDS_CAPTURE = "NEEDS_CAPTURE",
   PROCESSING = "PROCESSING",

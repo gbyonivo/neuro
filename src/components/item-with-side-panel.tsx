@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SidePanel } from "./side-panel";
 
 interface Props<T> {
+  title: string;
   renderItemContent: (contentProps: {
     item: T;
     handleShowPanel: (value: boolean) => void;
@@ -17,6 +18,7 @@ export function ItemWithSidePanel<T>({
   renderItemContent,
   renderSidePanelContent,
   item,
+  title,
 }: Props<T>) {
   const [showPanel, setShowPanel] = useState(false);
 
@@ -27,7 +29,7 @@ export function ItemWithSidePanel<T>({
         handleShowPanel: (val: boolean) => setShowPanel(val),
       })}
       <SidePanel
-        title="Item Details"
+        title={title}
         open={showPanel}
         onClose={() => setShowPanel(false)}
       >

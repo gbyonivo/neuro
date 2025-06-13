@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import catalogItemReducer from "./slices/catalog-item-slice";
 import taskReducer from "./slices/tasks-slice";
 import imageProcessingReducer from "./slices/image-processing-slice";
+import resultReducer from "./slices/results-slice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       catalogItems: catalogItemReducer,
       tasks: taskReducer,
       imageProcessing: imageProcessingReducer,
+      results: resultReducer,
     },
   });
 };
