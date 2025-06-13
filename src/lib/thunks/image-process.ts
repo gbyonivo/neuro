@@ -39,12 +39,13 @@ export const uploadImage = createAsyncThunk(
         updateProcessStatus({ taskUuid, status: ProcessStatus.COMPLETED })
       );
       toast.success("Image uploaded successfully");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       thunkAPI.dispatch(
         updateProcessStatus({ taskUuid, status: ProcessStatus.FAILED })
       );
       toast.error("Image upload failed");
-      console.log("error", e);
+      // console.log("error", e);
     }
   }
 );

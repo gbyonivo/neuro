@@ -54,6 +54,7 @@ export function TaskImageUpload({
         <label
           htmlFor="file-upload"
           className="block text-sm font-medium text-white"
+          data-testid="upload-file-label"
         >
           Upload a File
         </label>
@@ -77,6 +78,7 @@ export function TaskImageUpload({
             width={100}
             height={100}
             className="rounded-md h-40 w-40 object-contain"
+            data-testid="selected-image"
           />
         </div>
       )}
@@ -85,12 +87,17 @@ export function TaskImageUpload({
           onClick={handleImageUpload}
           disabled={!image || isUploading}
           className="my-4 self-center mt-12"
+          id="upload-button"
+          loading={isUploading}
         >
-          {isUploading ? "Uploading..." : "Upload"}
+          Upload
         </Button>
       </div>
       {didJustFinish && (
-        <div className="text-green-500 text-sm my-4">
+        <div
+          className="text-green-500 text-sm my-4"
+          data-testid="upload-success-message"
+        >
           Image uploadeded successfully
         </div>
       )}

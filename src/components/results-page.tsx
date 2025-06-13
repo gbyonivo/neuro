@@ -33,7 +33,6 @@ export function ResultsPage() {
         total={total}
         keyProp="uuid"
         initialMode={ListContainerMode.GRID}
-        hideSwitchMode
         title="Results"
         subtitle={
           <Link href="/tasks" className="text-blue-500 text-sm underline">
