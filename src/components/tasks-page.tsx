@@ -4,6 +4,7 @@ import { ListContainer, ListContainerMode } from "./list-container";
 import { useTasks } from "@/hooks/use-tasks";
 import { TaskItem } from "./task-item";
 import Link from "next/link";
+import { TaskSearch } from "./task-search";
 
 const tableHeaders = [
   {
@@ -42,9 +43,6 @@ export function TasksPage() {
         loading={isLoading}
         error={error}
         onRefresh={() => fetchTasks({ limit: 10, offset: 0 })}
-        renderGridCard={({ item }) => (
-          <TaskItem item={item} isGrid key={item.uuid} />
-        )}
         renderRow={({ item }) => <TaskItem item={item} key={item.uuid} />}
         onFetchMore={() => fetchTasks({ limit: 10, offset: offset + 10 })}
         total={total}
@@ -52,6 +50,7 @@ export function TasksPage() {
         initialMode={ListContainerMode.TABLE}
         hideSwitchMode
         title="Tasks"
+        renderBetweenHeaderAndBody={() => <TaskSearch />}
         subtitle={
           <Link href="/" className="text-blue-500 text-sm underline">
             View Catalog

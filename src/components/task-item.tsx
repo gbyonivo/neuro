@@ -6,24 +6,10 @@ import Link from "next/link";
 
 interface TaskCardProps {
   item: Task;
-  isGrid?: boolean;
 }
 
-export function TaskItem({ item, isGrid = false }: TaskCardProps) {
-  return isGrid ? (
-    <ItemWithSidePanel<Task>
-      item={item}
-      key={item.uuid}
-      renderSidePanelContent={({ item }) => (
-        <div key={item.uuid}>{item.name}</div>
-      )}
-      renderItemContent={({ item, handleShowPanel }) => (
-        <div key={item.uuid} onClick={() => handleShowPanel(true)}>
-          {item.name}
-        </div>
-      )}
-    />
-  ) : (
+export function TaskItem({ item }: TaskCardProps) {
+  return (
     <tr key={item.uuid} className="hover:bg-gray-100 dark:hover:bg-gray-900">
       <td>
         <Link
@@ -49,7 +35,10 @@ export function TaskItem({ item, isGrid = false }: TaskCardProps) {
         <ItemWithSidePanel<Task>
           item={item}
           key={item.uuid}
-          renderSidePanelContent={({ item }) => <TaskImageUpload task={item} />}
+          title="Task Details - Upload Images"
+          renderSidePanelContent={({ item }) => (
+            <TaskImageUpload taskId={item.uuid} />
+          )}
           renderItemContent={({ item, handleShowPanel }) => (
             <div
               className="cursor-pointer underline text-blue-500 text-sm text-center w-full"

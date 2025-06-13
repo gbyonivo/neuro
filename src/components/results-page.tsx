@@ -3,11 +3,12 @@
 import { ListContainer, ListContainerMode } from "./list-container";
 import Link from "next/link";
 import { useResults } from "@/hooks/use-results";
-import { ImageCard } from "./common/image-card";
-import { ResultStatus } from "@/types/result";
+import { ResultItem } from "./result-item";
+import { TaskImageUpload } from "./task-image-upload";
 
 export function ResultsPage() {
-  const { items, fetchResults, isLoading, error, offset, total } = useResults();
+  const { items, fetchResults, isLoading, error, offset, total, taskId } =
+    useResults();
 
   return (
     <div className="text-black dark:text-white p-8">
@@ -17,16 +18,17 @@ export function ResultsPage() {
         error={error}
         onRefresh={() => fetchResults({ limit: 10, offset: 0 })}
         renderGridCard={({ item }) => (
-          <ImageCard
-            key={item.uuid}
-            imageUrl={item.image_url}
-            className="bg-gray-100 dark:bg-gray-100"
-            lines={[item.status || ""]}
-            flag={item.status === ResultStatus.FAILED ? "Process Failed" : ""}
-            header={item.uuid}
-          />
+          <ResultItem item={item} key={item.uuid} />
         )}
-        renderRow={() => <></>}
+        renderBetweenHeaderAndBody={() =>
+          taskId ? (
+            <TaskImageUpload
+              taskId={taskId}
+              containerClassName="flex justify-center space-x-4 -mt-8"
+              hideViewAllResults
+            />
+          ) : null
+        }
         onFetchMore={() => fetchResults({ limit: 10, offset: offset + 10 })}
         total={total}
         keyProp="uuid"

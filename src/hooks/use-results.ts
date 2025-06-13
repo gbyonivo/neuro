@@ -47,5 +47,5 @@ export const useResults = () => {
     }
   }, [items.length, fetchResults, id, taskId]);
 
-  return { items, fetchResults, isLoading, error, offset, total };
+  return { items, fetchResults, isLoading, error, offset, total, taskId };
 };

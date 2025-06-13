@@ -3,28 +3,33 @@ import { ImageCard } from "./common/image-card";
 
 interface CatalogItemProps {
   item: CatalogItemType;
-  isGrid?: boolean;
 }
 
-export function CatalogItem({ item, isGrid = false }: CatalogItemProps) {
+const FLAG_CLASS_NAMES = {
+  [CatalogItemStatus.NEEDS_CAPTURE]: "bg-red-700 text-white",
+  [CatalogItemStatus.PROCESSING]: "bg-yellow-400 text-white",
+  [CatalogItemStatus.READY]: "bg-green-700 text-white",
+};
+
+const FLAG_LABELS = {
+  [CatalogItemStatus.NEEDS_CAPTURE]: "Need Capture",
+  [CatalogItemStatus.PROCESSING]: "Processing Item",
+  [CatalogItemStatus.READY]: "Processed",
+};
+
+export function CatalogItem({ item }: CatalogItemProps) {
   const isNeedCapture = item.status === CatalogItemStatus.NEEDS_CAPTURE;
   const className = isNeedCapture
     ? "border-2 border-red-700 bg-gray-300 dark:bg-gray-300"
     : "bg-gray-100 dark:bg-gray-100";
-  return isGrid ? (
+  return (
     <ImageCard
       imageUrl={item.thumbnail_url}
       className={className}
-      lines={[item.name || "", item.barcode || ""]}
+      lines={[FLAG_LABELS[item.status] || "", item.barcode || ""]}
       header={item.name || ""}
-      flag={isNeedCapture ? "Need Capture" : ""}
+      flag={FLAG_LABELS[item.status]}
+      flagClassName={FLAG_CLASS_NAMES[item.status]}
     />
-  ) : (
-    // TODO: Make this look better, but for now i will restrict the list to grid mode
-    <tr className="my-8">
-      <td>{item.uuid}</td>
-      <td>{item.name}</td>
-      <td>{item.status}</td>
-    </tr>
   );
 }

@@ -4,6 +4,7 @@ import { useCatalogItems } from "@/hooks/use-catalog-items";
 import { ListContainer } from "./list-container";
 import { CatalogItem } from "./catalog-item";
 import Link from "next/link";
+import { TaskSearch } from "./task-search";
 
 export function CatalogItemsPage() {
   const { items, fetchCatalog, isLoading, error, offset, total } =
@@ -17,9 +18,9 @@ export function CatalogItemsPage() {
         error={error}
         onRefresh={() => fetchCatalog({ limit: 10, offset: 0 })}
         renderGridCard={({ item }) => (
-          <CatalogItem item={item} isGrid key={item.uuid} />
+          <CatalogItem item={item} key={item.uuid} />
         )}
-        renderRow={({ item }) => <CatalogItem item={item} key={item.uuid} />}
+        renderBetweenHeaderAndBody={() => <TaskSearch />}
         onFetchMore={() => fetchCatalog({ limit: 10, offset: offset + 10 })}
         total={total}
         keyProp="uuid"

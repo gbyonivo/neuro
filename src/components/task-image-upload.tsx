@@ -1,7 +1,6 @@
 import { RootState } from "@/lib/store";
 import { uploadImage } from "@/lib/thunks/image-process";
 import { ProcessStatus } from "@/types/stores/image-processing-store";
-import { Task } from "@/types/task";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,17 +8,21 @@ import { Button } from "./common/button";
 import Link from "next/link";
 
 interface ImageUploadProps {
-  task: Task;
+  taskId: string;
   onUploaded?: () => void;
+  containerClassName?: string;
+  hideViewAllResults?: boolean;
 }
 
-export function TaskImageUpload({ task }: ImageUploadProps) {
+export function TaskImageUpload({
+  taskId,
+  containerClassName,
+  hideViewAllResults,
+}: ImageUploadProps) {
   const { processes } = useSelector(
     (state: RootState) => state.imageProcessing
   );
-  const imageProcess = processes.find(
-    (process) => process.taskUuid === task.uuid
-  );
+  const imageProcess = processes.find((process) => process.taskUuid === taskId);
   const statusRef = useRef<ProcessStatus>(imageProcess?.status);
   const isUploading = imageProcess?.status === ProcessStatus.PROCESSING;
   const [image, setImage] = useState<File | null>(null);
@@ -41,11 +44,11 @@ export function TaskImageUpload({ task }: ImageUploadProps) {
     if (!image) return;
     setDidJustFinish(false);
     // @ts-expect-error: TODO: fix this type issue
-    dispatch(uploadImage({ image, taskUuid: task.uuid }));
-  }, [image, task.uuid, dispatch]);
+    dispatch(uploadImage({ image, taskUuid: taskId }));
+  }, [image, taskId, dispatch]);
 
   return (
-    <div>
+    <div className={containerClassName}>
       <div>
         <input />
         <label
@@ -81,7 +84,7 @@ export function TaskImageUpload({ task }: ImageUploadProps) {
         <Button
           onClick={handleImageUpload}
           disabled={!image || isUploading}
-          className="my-4"
+          className="my-4 self-center mt-12"
         >
           {isUploading ? "Uploading..." : "Upload"}
         </Button>
@@ -91,12 +94,14 @@ export function TaskImageUpload({ task }: ImageUploadProps) {
           Image uploadeded successfully
         </div>
       )}
-      <Link
-        href={`/tasks/${task.uuid}/results`}
-        className="text-blue-500 text-sm underline"
-      >
-        View All Results
-      </Link>
+      {!hideViewAllResults && (
+        <Link
+          href={`/tasks/${taskId}/results`}
+          className="text-blue-500 text-sm underline"
+        >
+          View All Results
+        </Link>
+      )}
     </div>
   );
 }

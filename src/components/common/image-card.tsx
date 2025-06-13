@@ -6,6 +6,8 @@ interface ImageCardProps {
   lines: string[];
   header: string;
   flag: string;
+  onClick?: () => void;
+  flagClassName?: string;
 }
 
 export function ImageCard({
@@ -14,10 +16,18 @@ export function ImageCard({
   lines,
   header,
   flag,
+  onClick,
+  flagClassName = "bg-red-700 text-white",
 }: ImageCardProps) {
   return (
     <div
-      className={`w-64 h-80  rounded-lg shadow-md p-4 flex flex-col relative overflow-hidden ${className}`}
+      className={`w-64 h-80  rounded-lg shadow-md p-4 flex flex-col relative overflow-hidden ${className} ${
+        onClick
+          ? "cursor-pointer hover:shadow-lg transition-shadow duration-300"
+          : ""
+      }`}
+      role="button"
+      onClick={onClick}
     >
       <Image
         className="w-full h-40 rounded-lg object-contain"
@@ -35,8 +45,10 @@ export function ImageCard({
         ))}
       </div>
       {!!flag && (
-        <div className="absolute -bottom-4 -right-8 bg-red-700 p-1 px-2 rotate-325 w-60 text-right">
-          <span className="text-white font-semibold text-xs mr-3">{flag}</span>
+        <div
+          className={`absolute -bottom-4 -right-8 p-1 px-2 rotate-325 w-60 text-right ${flagClassName}`}
+        >
+          <span className="font-semibold text-xs mr-3">{flag}</span>
         </div>
       )}
     </div>

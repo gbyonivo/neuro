@@ -19,13 +19,14 @@ interface ListContainerProps<T> {
   total: number;
   keyProp: keyof T;
   initialMode?: ListContainerMode;
+  hideSwitchMode?: boolean;
   renderTableHeader?: () => React.ReactNode;
-  renderGridCard: (value: {
+  renderGridCard?: (value: {
     item: T;
     toggleSelection: (item: T) => void;
     isSelected: boolean;
   }) => React.ReactNode;
-  renderRow: (value: {
+  renderRow?: (value: {
     item: T;
     toggleSelection: (item: T) => void;
     isSelected: boolean;
@@ -33,7 +34,7 @@ interface ListContainerProps<T> {
   onFetchMore: () => void;
   onRefresh: () => void;
   onEmptyStateClick?: () => void;
-  hideSwitchMode?: boolean;
+  renderBetweenHeaderAndBody?: () => React.ReactNode;
 }
 
 export function ListContainer<T>({
@@ -51,10 +52,12 @@ export function ListContainer<T>({
   renderTableHeader,
   renderGridCard,
   renderRow,
+  renderBetweenHeaderAndBody,
   onFetchMore,
   onRefresh,
 }: ListContainerProps<T>) {
   const [mode, setMode] = useState(() => initialMode || ListContainerMode.GRID);
+  // TODO: get into selection mode and allow user to select catalog items to be used when creating a task
   const [selection, setSelection] = useState<Record<string, boolean>>({});
   const containerClassName =
     mode === ListContainerMode.GRID
@@ -92,7 +95,9 @@ export function ListContainer<T>({
             <p className="text-lg text-gray-500 text-center mt-1">
               Total: {list.length} / {total}
             </p>
-            <Button onClick={onRefresh}>Refresh</Button>
+            <Button onClick={onRefresh} disabled={loading} loading={loading}>
+              Refresh
+            </Button>
           </div>
           {!hideSwitchMode && (
             <div className="flex gap-2">
@@ -114,6 +119,7 @@ export function ListContainer<T>({
           )}
         </div>
       </div>
+      {renderBetweenHeaderAndBody && renderBetweenHeaderAndBody()}
       <div className={bodyClassName}>
         <Tag className={`${containerClassName}`}>
           {mode === ListContainerMode.TABLE &&
@@ -122,13 +128,13 @@ export function ListContainer<T>({
           <TagBody>
             {list.map((item) => {
               if (mode === ListContainerMode.GRID) {
-                return renderGridCard({
+                return renderGridCard?.({
                   item,
                   toggleSelection,
                   isSelected: selection[item[keyProp] as string],
                 });
               }
-              return renderRow({
+              return renderRow?.({
                 item,
                 toggleSelection,
                 isSelected: selection[item[keyProp] as string],
