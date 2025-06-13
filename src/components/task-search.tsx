@@ -12,11 +12,13 @@ export function TaskSearch() {
   return (
     <div className="flex gap-2 justify-center">
       <TextInput
-        placeholder="Task ID"
+        placeholder="Task ID*"
         value={taskId}
         onChange={(value) => setTaskId(value)}
       />
-      <Button onClick={handleSearch}>Search</Button>
+      <Button onClick={handleSearch} disabled={!taskId}>
+        Search
+      </Button>
     </div>
   );
 }
