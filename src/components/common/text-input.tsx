@@ -1,7 +1,6 @@
 import { Input, Field, Label, Description } from "@headlessui/react";
 
 import clsx from "clsx";
-import { forwardRef } from "react";
 
 interface TextInputProps {
   label?: string;
@@ -13,53 +12,59 @@ interface TextInputProps {
   disabled?: boolean;
   testId?: string;
   placeholder?: string;
+  error?: string;
+  id?: string;
 }
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  function TextInput(
-    {
-      label,
-      description,
-      containerClassName,
-      className,
-      onChange,
-      disabled,
-      value,
-      testId,
-      placeholder,
-    }: TextInputProps,
-    ref
-  ) {
-    return (
-      <div className={clsx(containerClassName)} data-testid={testId}>
-        <Field>
-          {label && (
-            <Label className="block text-sm/6 font-medium text-gray-400">
-              {label}
-            </Label>
+export function TextInput({
+  label,
+  description,
+  containerClassName,
+  className,
+  onChange,
+  disabled,
+  value,
+  placeholder,
+  error,
+  id,
+}: TextInputProps) {
+  return (
+    <div className={clsx(containerClassName)}>
+      <Field>
+        {label && (
+          <Label className="block text-sm/6 font-medium text-gray-400">
+            {label}
+          </Label>
+        )}
+        {description && (
+          <Description className="text-sm/6 text-white/50">
+            {description}
+          </Description>
+        )}
+        <Input
+          data-testid={id}
+          className={clsx(
+            "h-10 block w-full rounded-lg border border-gray-300 dark:border-none bg-white/5 px-3 py-1.5 text-sm/6 text-black dark:text-white",
+            "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
+            className
           )}
-          {description && (
-            <Description className="text-sm/6 text-white/50">
-              {description}
-            </Description>
-          )}
-          <Input
-            className={clsx(
-              "h-10 block w-full rounded-lg border border-gray-300 dark:border-none bg-white/5 px-3 py-1.5 text-sm/6 text-black dark:text-white",
-              "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
-              className
-            )}
-            placeholder={placeholder}
-            onChange={(e) => {
-              e.preventDefault();
-              onChange(e.target.value);
-            }}
-            value={value}
-            disabled={disabled}
-            ref={ref}
-          />
-        </Field>
-      </div>
-    );
-  }
-);
+          placeholder={placeholder}
+          onChange={(e) => {
+            e.preventDefault();
+            onChange(e.target.value);
+          }}
+          value={value}
+          disabled={disabled}
+        />
+        {error && (
+          <p
+            className="text-red-500 text-sm"
+            data-testid={`${id}-error-message`}
+          >
+            {error}
+          </p>
+        )}
+      </Field>
+    </div>
+  );
+}

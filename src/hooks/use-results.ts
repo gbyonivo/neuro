@@ -13,7 +13,6 @@ import { Result } from "@/types/result";
 
 export const useResults = () => {
   const { id } = useParams();
-  console.log(id);
   const dispatch = useDispatch();
   const { items, isLoading, error, offset, total, taskId } = useSelector(
     (state: RootState) => state.results

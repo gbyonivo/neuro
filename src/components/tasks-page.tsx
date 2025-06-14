@@ -48,7 +48,6 @@ export function TasksPage() {
         total={total}
         keyProp="uuid"
         initialMode={ListContainerMode.TABLE}
-        hideSwitchMode
         title="Tasks"
         renderBetweenHeaderAndBody={() => <TaskSearch />}
         subtitle={

@@ -9,7 +9,7 @@ export enum ListContainerMode {
   TABLE = "table",
 }
 
-interface ListContainerProps<T> {
+export interface ListContainerProps<T> {
   list: T[];
   loading: boolean;
   error: string | null;
@@ -19,7 +19,6 @@ interface ListContainerProps<T> {
   total: number;
   keyProp: keyof T;
   initialMode?: ListContainerMode;
-  hideSwitchMode?: boolean;
   renderTableHeader?: () => React.ReactNode;
   renderError?: (error: string) => React.ReactNode;
   renderGridCard?: (value: {
@@ -48,7 +47,6 @@ export function ListContainer<T>({
   total,
   initialMode,
   keyProp,
-  hideSwitchMode,
   onEmptyStateClick,
   renderTableHeader,
   renderGridCard,
@@ -58,7 +56,19 @@ export function ListContainer<T>({
   onRefresh,
   renderError,
 }: ListContainerProps<T>) {
-  const [mode, setMode] = useState(() => initialMode || ListContainerMode.GRID);
+  const [mode, setMode] = useState(() => {
+    if (initialMode) {
+      return initialMode;
+    }
+    if (renderGridCard) {
+      return ListContainerMode.GRID;
+    }
+    if (renderRow) {
+      return ListContainerMode.TABLE;
+    }
+    return ListContainerMode.GRID;
+  });
+  const showSwitchMode = !!renderGridCard && !!renderRow;
   // TODO: get into selection mode and allow user to select catalog items to be used when creating a task
   const [selection, setSelection] = useState<Record<string, boolean>>({});
   const containerClassName =
@@ -97,15 +107,21 @@ export function ListContainer<T>({
             <p className="text-lg text-gray-500 text-center mt-1">
               Total: {list.length} / {total}
             </p>
-            <Button onClick={onRefresh} disabled={loading} loading={loading}>
+            <Button
+              onClick={onRefresh}
+              disabled={loading}
+              loading={loading}
+              id="refresh-button"
+            >
               Refresh
             </Button>
           </div>
-          {!hideSwitchMode && (
+          {showSwitchMode && (
             <div className="flex gap-2">
               <Button
                 data-id="grid-button"
                 onClick={() => setMode(ListContainerMode.GRID)}
+                id="grid-button"
               >
                 <Squares2X2Icon className="w-4 h-4" />
                 Grid
@@ -113,6 +129,7 @@ export function ListContainer<T>({
               <Button
                 data-id="table-button"
                 onClick={() => setMode(ListContainerMode.TABLE)}
+                id="table-button"
               >
                 <TableCellsIcon className="w-4 h-4" />
                 Table
@@ -152,17 +169,24 @@ export function ListContainer<T>({
           disabled={loading || total <= list.length}
           className="mt-8 self-center"
           loading={loading}
+          id="fetch-more-button"
         >
           Fetch More
         </Button>
       )}
       <div className="flex justify-center">
         {!loading && !error && list.length === 0 && (
-          <EmptyState description="No data" onClick={onEmptyStateClick} />
+          <EmptyState
+            description="No data"
+            onClick={onEmptyStateClick}
+            id="empty-state"
+          />
         )}
         {loading && <Spinner size="large" />}
         {error &&
-          (renderError?.("Error Fetching Data") || <div>Error: {error}</div>)}
+          (renderError?.("Error Fetching Data") || (
+            <div data-testid="default-error-message">Error: {error}</div>
+          ))}
       </div>
     </div>
   );

@@ -27,6 +27,7 @@ export function ResultItem({ item }: ResultItemProps) {
           flag={item.status === ResultStatus.FAILED ? "Process Failed" : ""}
           header={item.uuid}
           onClick={() => handleShowPanel(true)}
+          id={`result-${item.uuid}`}
         />
       )}
     />

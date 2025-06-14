@@ -30,7 +30,6 @@ export function CatalogItemsPage() {
             View Tasks
           </Link>
         }
-        hideSwitchMode
       />
     </div>
   );

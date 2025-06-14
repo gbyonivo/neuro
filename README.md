@@ -32,7 +32,7 @@ cd neuro
 2. Install dependencies:
 
 ```bash
-yarn install
+yarn
 ```
 
 3. Start the development server:
@@ -62,6 +62,7 @@ src/
 - `yarn build` - Build the application for production
 - `yarn start` - Start the production server
 - `yarn lint` - Run ESLint for code quality checks
+- `yarn test` - Test Code
 
 ## API Integration
 
