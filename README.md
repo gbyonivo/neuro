@@ -14,6 +14,8 @@ A modern web application built with Next.js 15, React 19, and TypeScript, featur
 - 📱 Responsive design with Headless UI components
 - 🔔 Toast notifications with react-toastify
 - 📅 Date handling with date-fns
+- 🕵🏾‍♂️ Yup for validation
+- 🫀 Jest for Test / cool icon for Jest eh?!
 
 ## Prerequisites
 
