@@ -8,6 +8,7 @@ interface ImageCardProps {
   flag: string;
   onClick?: () => void;
   flagClassName?: string;
+  id?: string;
 }
 
 export function ImageCard({
@@ -18,6 +19,7 @@ export function ImageCard({
   flag,
   onClick,
   flagClassName = "bg-red-700 text-white",
+  id,
 }: ImageCardProps) {
   return (
     <div
@@ -28,6 +30,7 @@ export function ImageCard({
       }`}
       role="button"
       onClick={onClick}
+      data-testid={id}
     >
       <Image
         className="w-full h-40 rounded-lg object-contain"

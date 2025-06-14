@@ -15,6 +15,7 @@ export const useTasks = () => {
     (state: RootState) => state.tasks
   );
 
+  // pass in a function to check the response contains tasks
   const fetchTasks = useFetchItems<Task>({
     onSuccess: useCallback(
       (data) => dispatch(fetchItemsSuccess(data)),

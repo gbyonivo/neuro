@@ -10,7 +10,11 @@ interface TaskCardProps {
 
 export function TaskItem({ item }: TaskCardProps) {
   return (
-    <tr key={item.uuid} className="hover:bg-gray-100 dark:hover:bg-gray-900">
+    <tr
+      key={item.uuid}
+      className="hover:bg-gray-100 dark:hover:bg-gray-900"
+      data-testid={`task-${item.uuid}`}
+    >
       <td>
         <Link
           href={`/tasks/${item.uuid}/results`}

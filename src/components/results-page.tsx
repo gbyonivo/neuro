@@ -40,7 +40,7 @@ export function ResultsPage() {
           </Link>
         }
         renderError={(error) => (
-          <div>
+          <div data-testid="results-error-message">
             <p className="text-red-500">Error: {error}</p>
             <p className="text-sm">
               <Link href="/tasks" className="text-blue-500 text-sm underline">
