@@ -9,7 +9,12 @@ module.exports = {
     "!<rootDir>/out/**",
     "!<rootDir>/.next/**",
     "!<rootDir>/*.config.js",
+    "!<rootDir>/*.config.ts",
     "!<rootDir>/coverage/**",
+    "!<rootDir>/storybook-static/**",
+    "!<rootDir>/src/stories/**",
+    "!<rootDir>/.storybook/**",
+    "!<rootDir>/src/types/**",
   ],
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
