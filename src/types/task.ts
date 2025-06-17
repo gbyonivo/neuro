@@ -6,3 +6,14 @@ export interface Task {
   compute_realogram: boolean;
   compute_shares: boolean;
 }
+
+export function isTask(task: unknown): task is Task {
+  return (
+    typeof task === "object" &&
+    task !== null &&
+    "uuid" in task &&
+    "name" in task &&
+    typeof task.uuid === "string" &&
+    typeof task.name === "string"
+  );
+}

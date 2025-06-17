@@ -5,6 +5,7 @@ import { useTasks } from "@/hooks/use-tasks";
 import { TaskItem } from "./task-item";
 import Link from "next/link";
 import { TaskSearch } from "./task-search";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 const tableHeaders = [
   {
@@ -51,8 +52,11 @@ export function TasksPage() {
         title="Tasks"
         renderBetweenHeaderAndBody={() => <TaskSearch />}
         subtitle={
-          <Link href="/" className="text-blue-500 text-sm underline">
-            View Catalog
+          <Link
+            href="/"
+            className="text-blue-500 text-sm flex cursor-pointer justify-center"
+          >
+            <ArrowLeftIcon className="w-4 h-4 mt-0.5 mr-1" /> View Catalog
           </Link>
         }
         renderTableHeader={() => (

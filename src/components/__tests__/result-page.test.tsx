@@ -40,16 +40,29 @@ describe("ResultsPage", () => {
   test.each([[undefined, true]])(
     "should fetch results when mounted and render them",
     async (initialTaskId, shouldHaveBeenCalled) => {
-      jest.spyOn(NeuroAxiosV2, "get").mockImplementation(() =>
-        Promise.resolve({
-          data: {
-            items: fetchedResults,
-            total: 1,
-            offset: 0,
-            limit: 10,
-          },
-        })
-      );
+      jest.spyOn(NeuroAxiosV2, "get").mockImplementation((url: string) => {
+        if (url.includes("tasks/1/results")) {
+          return Promise.resolve({
+            data: {
+              items: fetchedResults,
+              total: 1,
+              offset: 0,
+              limit: 10,
+            },
+          });
+        } else if (url === "/image-recognition/tasks/1") {
+          return Promise.resolve({
+            data: {
+              task: {
+                uuid: "1",
+                name: "Test Task",
+              },
+            },
+          });
+        }
+
+        return Promise.resolve(null);
+      });
 
       const { container } = renderWithProviders(<ResultsPage />, {
         preloadedState: {
