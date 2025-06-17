@@ -9,6 +9,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useTask } from "@/hooks/use-task";
 import { useParams, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { LIMIT } from "@/utils/constants";
 
 export function ResultsPage() {
   const { items, fetchResults, isLoading, error, offset, total } = useResults();
@@ -21,7 +22,7 @@ export function ResultsPage() {
   });
 
   const onUploaded = useCallback(() => {
-    fetchResults({ limit: 10, offset: 0 });
+    fetchResults({ limit: LIMIT, offset: 0 });
   }, [fetchResults]);
 
   return (
@@ -30,7 +31,7 @@ export function ResultsPage() {
         list={items}
         loading={isLoading}
         error={error}
-        onRefresh={() => fetchResults({ limit: 10, offset: 0 })}
+        onRefresh={() => fetchResults({ limit: LIMIT, offset: 0 })}
         renderGridCard={({ item }) => (
           <ResultItem item={item} key={item.uuid} />
         )}
@@ -44,7 +45,9 @@ export function ResultsPage() {
             />
           ) : null
         }
-        onFetchMore={() => fetchResults({ limit: 10, offset: offset + 10 })}
+        onFetchMore={() =>
+          fetchResults({ limit: LIMIT, offset: offset + LIMIT })
+        }
         total={total}
         keyProp="uuid"
         initialMode={ListContainerMode.GRID}

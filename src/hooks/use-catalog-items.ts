@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect } from "react";
 import { useFetchItems } from "./use-fetch-items";
 import { CatalogItemType } from "@/types/catalog-item";
+import { LIMIT } from "@/utils/constants";
 
 export const useCatalogItems = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export const useCatalogItems = () => {
 
   useEffect(() => {
     if (items.length === 0) {
-      fetchCatalog({ limit: 10, offset: 0 });
+      fetchCatalog({ limit: LIMIT, offset: 0 });
     }
   }, [items.length, fetchCatalog]);
 

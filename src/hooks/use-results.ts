@@ -10,6 +10,7 @@ import { useCallback, useEffect } from "react";
 import { useFetchItems } from "./use-fetch-items";
 import { useParams } from "next/navigation";
 import { Result } from "@/types/result";
+import { LIMIT } from "@/utils/constants";
 
 export const useResults = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ export const useResults = () => {
 
   useEffect(() => {
     if (items.length === 0 && id === taskId) {
-      fetchResults({ limit: 10, offset: 0 });
+      fetchResults({ limit: LIMIT, offset: 0 });
     }
   }, [items.length, fetchResults, id, taskId]);
 

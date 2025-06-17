@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { NeuroAxiosV2 } from "@/utils/neuro-axios";
 import { useFetchItems } from "../use-fetch-items";
+import { LIMIT } from "@/utils/constants";
 
 jest.mock("@/utils/neuro-axios");
 
@@ -16,7 +17,7 @@ describe("useFetchItems", () => {
           items: [],
           total: 0,
           offset: 0,
-          limit: 10,
+          limit: LIMIT,
         },
       })
     );
@@ -29,7 +30,7 @@ describe("useFetchItems", () => {
       })
     );
 
-    await result.current({ limit: 10, offset: 0 });
+    await result.current({ limit: LIMIT, offset: 0 });
 
     expect(onStart).toHaveBeenCalled();
     expect(NeuroAxiosV2.get).toHaveBeenCalledWith("/items?limit=10&offset=0");
@@ -37,7 +38,7 @@ describe("useFetchItems", () => {
       items: [],
       total: 0,
       offset: 0,
-      limit: 10,
+      limit: LIMIT,
     });
   });
 
@@ -60,7 +61,7 @@ describe("useFetchItems", () => {
       })
     );
 
-    await result.current({ limit: 10, offset: 0 });
+    await result.current({ limit: LIMIT, offset: 0 });
 
     expect(onStart).toHaveBeenCalled();
     expect(NeuroAxiosV2.get).toHaveBeenCalledWith("/items?limit=10&offset=0");
@@ -82,7 +83,7 @@ describe("useFetchItems", () => {
       })
     );
 
-    await result.current({ limit: 10, offset: 0 });
+    await result.current({ limit: LIMIT, offset: 0 });
 
     expect(onStart).toHaveBeenCalled();
     expect(NeuroAxiosV2.get).toHaveBeenCalledWith("/items?limit=10&offset=0");
@@ -115,7 +116,7 @@ describe("useFetchItems", () => {
       })
     );
 
-    await result.current({ limit: 10, offset: 0 });
+    await result.current({ limit: LIMIT, offset: 0 });
 
     expect(onStart).toHaveBeenCalled();
     expect(NeuroAxiosV2.get).toHaveBeenCalledWith("/items?limit=10&offset=0");

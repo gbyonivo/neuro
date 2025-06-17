@@ -3,9 +3,18 @@ import { ResultsPage } from "../results-page";
 import { NeuroAxiosV2 } from "@/utils/neuro-axios";
 import { waitFor } from "@testing-library/dom";
 import { Result, ResultStatus } from "@/types/result";
+import { LIMIT } from "@/utils/constants";
 
 const defaultState = {
   results: {
+    items: [],
+    total: 0,
+    isLoading: false,
+    error: null,
+    offset: 0,
+    taskId: undefined,
+  },
+  tasks: {
     items: [],
     total: 0,
     isLoading: false,
@@ -37,9 +46,12 @@ const fetchedResults: Result[] = [
 ];
 
 describe("ResultsPage", () => {
-  test.each([[undefined, true]])(
+  test.each([
+    [undefined, true, []],
+    [undefined, true, [{ uuid: "1", name: "Test Task" }]],
+  ])(
     "should fetch results when mounted and render them",
-    async (initialTaskId, shouldHaveBeenCalled) => {
+    async (initialTaskId, shouldHaveBeenCalled, tasks) => {
       jest.spyOn(NeuroAxiosV2, "get").mockImplementation((url: string) => {
         if (url.includes("tasks/1/results")) {
           return Promise.resolve({
@@ -47,7 +59,7 @@ describe("ResultsPage", () => {
               items: fetchedResults,
               total: 1,
               offset: 0,
-              limit: 10,
+              limit: LIMIT,
             },
           });
         } else if (url === "/image-recognition/tasks/1") {
@@ -69,11 +81,24 @@ describe("ResultsPage", () => {
           ...{
             ...defaultState,
             results: { ...defaultState.results, taskId: initialTaskId },
+            tasks: {
+              ...defaultState.tasks,
+              items: tasks,
+            },
           },
         },
       });
 
       await waitFor(() => {
+        if (tasks.length === 0) {
+          expect(NeuroAxiosV2.get).toHaveBeenCalledWith(
+            "/image-recognition/tasks/1"
+          );
+        } else {
+          expect(NeuroAxiosV2.get).not.toHaveBeenCalledWith(
+            "/image-recognition/tasks/1"
+          );
+        }
         if (shouldHaveBeenCalled) {
           expect(NeuroAxiosV2.get).toHaveBeenCalledWith(
             "/image-recognition/tasks/1/results?limit=10&offset=0"
@@ -94,7 +119,7 @@ describe("ResultsPage", () => {
           items: [],
           total: 0,
           offset: 0,
-          limit: 10,
+          limit: LIMIT,
         },
       })
     );

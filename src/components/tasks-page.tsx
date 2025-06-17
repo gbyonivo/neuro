@@ -6,6 +6,7 @@ import { TaskItem } from "./task-item";
 import Link from "next/link";
 import { TaskSearch } from "./task-search";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { LIMIT } from "@/utils/constants";
 
 const tableHeaders = [
   {
@@ -43,9 +44,9 @@ export function TasksPage() {
         list={items}
         loading={isLoading}
         error={error}
-        onRefresh={() => fetchTasks({ limit: 10, offset: 0 })}
+        onRefresh={() => fetchTasks({ limit: LIMIT, offset: 0 })}
         renderRow={({ item }) => <TaskItem item={item} key={item.uuid} />}
-        onFetchMore={() => fetchTasks({ limit: 10, offset: offset + 10 })}
+        onFetchMore={() => fetchTasks({ limit: LIMIT, offset: offset + LIMIT })}
         total={total}
         keyProp="uuid"
         initialMode={ListContainerMode.TABLE}
