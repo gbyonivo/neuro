@@ -1,6 +1,6 @@
 import { RootState } from "@/lib/store";
-import { uploadImage } from "@/lib/thunks/image-process";
 import { ProcessStatus } from "@/types/stores/image-processing-store";
+import { uploadImage } from "@/lib/thunks/image-process";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

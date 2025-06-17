@@ -5,9 +5,6 @@ import { useTasks } from "@/hooks/use-tasks";
 import { TaskItem } from "./task-item";
 import Link from "next/link";
 import { TaskSearch } from "./task-search";
-import { ErrorBoundary } from "react-error-boundary";
-import { FallbackComponent } from "./fallback-component";
-import { ErrorInfo } from "react";
 
 const tableHeaders = [
   {
@@ -39,48 +36,41 @@ const tableHeaders = [
 export function TasksPage() {
   const { items, fetchTasks, isLoading, error, offset, total } = useTasks();
 
-  const logError = (error: Error, info: ErrorInfo) => {
-    // Do something with the error, e.g. log to an external API
-    console.error(error, info);
-  };
-
   return (
     <div className="text-black dark:text-white p-8">
-      <ErrorBoundary FallbackComponent={FallbackComponent} onError={logError}>
-        <ListContainer
-          list={items}
-          loading={isLoading}
-          error={error}
-          onRefresh={() => fetchTasks({ limit: 10, offset: 0 })}
-          renderRow={({ item }) => <TaskItem item={item} key={item.uuid} />}
-          onFetchMore={() => fetchTasks({ limit: 10, offset: offset + 10 })}
-          total={total}
-          keyProp="uuid"
-          initialMode={ListContainerMode.TABLE}
-          title="Tasks"
-          renderBetweenHeaderAndBody={() => <TaskSearch />}
-          subtitle={
-            <Link href="/" className="text-blue-500 text-sm underline">
-              View Catalog
-            </Link>
-          }
-          renderTableHeader={() => (
-            <thead>
-              <tr>
-                {tableHeaders.map((header) => (
-                  <th
-                    key={header.label}
-                    scope="col"
-                    className={`py-3.5 pr-3 text-sm font-semibold text-black dark:text-white  ${header.className}`}
-                  >
-                    {header.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-          )}
-        />
-      </ErrorBoundary>
+      <ListContainer
+        list={items}
+        loading={isLoading}
+        error={error}
+        onRefresh={() => fetchTasks({ limit: 10, offset: 0 })}
+        renderRow={({ item }) => <TaskItem item={item} key={item.uuid} />}
+        onFetchMore={() => fetchTasks({ limit: 10, offset: offset + 10 })}
+        total={total}
+        keyProp="uuid"
+        initialMode={ListContainerMode.TABLE}
+        title="Tasks"
+        renderBetweenHeaderAndBody={() => <TaskSearch />}
+        subtitle={
+          <Link href="/" className="text-blue-500 text-sm underline">
+            View Catalog
+          </Link>
+        }
+        renderTableHeader={() => (
+          <thead>
+            <tr>
+              {tableHeaders.map((header) => (
+                <th
+                  key={header.label}
+                  scope="col"
+                  className={`py-3.5 pr-3 text-sm font-semibold text-black dark:text-white  ${header.className}`}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        )}
+      />
     </div>
   );
 }
