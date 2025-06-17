@@ -64,7 +64,9 @@ src/
 - `yarn build` - Build the application for production
 - `yarn start` - Start the production server
 - `yarn lint` - Run ESLint for code quality checks
-- `yarn test` - Test Code
+- `yarn test` - Run tests and generate coverage report
+
+After running `yarn test`, you can find the test coverage report in the `coverage` directory. Open `coverage/lcov-report/index.html` in your browser to view a detailed coverage report with line-by-line information.
 
 ## API Integration
 
