@@ -10,8 +10,13 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
+  "pre-push": [
+    "test"
+  ],
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
@@ -30,7 +35,13 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^4.0.0",
     "@eslint/eslintrc": "^3",
+    "@storybook/addon-a11y": "^9.0.11",
+    "@storybook/addon-docs": "^9.0.11",
+    "@storybook/addon-onboarding": "^9.0.11",
+    "@storybook/addon-vitest": "^9.0.11",
+    "@storybook/nextjs-vite": "9.0.11",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
@@ -39,11 +50,17 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/browser": "^3.2.3",
+    "@vitest/coverage-v8": "^3.2.3",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
+    "eslint-plugin-storybook": "^9.0.11",
     "jest-environment-jsdom": "^30.0.0",
+    "playwright": "^1.53.0",
+    "storybook": "^9.0.11",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.3"
   }
 }

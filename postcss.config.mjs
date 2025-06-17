@@ -1,5 +1,11 @@
 const config = {
-  plugins: ["@tailwindcss/postcss"],
+  plugins: {
+    "@tailwindcss/postcss": {
+      purge: {
+        content: ["./src/**/*.{js,ts,jsx,tsx}"],
+      },
+    },
+  },
 };
 
 export default config;
