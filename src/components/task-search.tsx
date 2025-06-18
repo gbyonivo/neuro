@@ -38,7 +38,7 @@ export function TaskSearch() {
       <Button
         onClick={handleSearch}
         disabled={!taskId}
-        className="self-start"
+        className="self-start mt-0.5"
         id="search-button"
       >
         Search

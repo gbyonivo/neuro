@@ -9,6 +9,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { ProcessStatus } from "@/types/stores/image-processing-store";
 
+/**
+ * The reason I use thunk here is because I want to dispatch the result to the store
+ * and also i want to handle the result without depending on the component being mounted or unmounted
+ * And it;s generally cleaner using thunks for API calls, if not for anything for testability
+ */
+
 export const uploadImage = createAsyncThunk(
   "users/fetchByIdStatus",
   async ({ image, taskUuid }: { image: File; taskUuid: string }, thunkAPI) => {
@@ -38,6 +44,12 @@ export const uploadImage = createAsyncThunk(
       thunkAPI.dispatch(
         updateProcessStatus({ taskUuid, status: ProcessStatus.COMPLETED })
       );
+      // console.log("response", response.data);
+      // if (isResult(response.data)) {
+      //   thunkAPI.dispatch(
+      //     addResult({ result: response.data, taskId: taskUuid })
+      //   );
+      // }
       toast.success("Image uploaded successfully");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {

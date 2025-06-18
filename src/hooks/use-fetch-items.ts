@@ -11,6 +11,11 @@ interface FetchItemsProps {
   offset?: number;
 }
 
+/**
+ * This hook is used to fetch items from the backend
+ * I had used this before installing thunks
+ * Also like the thunks, redux and hooks we can create shared libraries for both mobile and web
+ **/
 export function useFetchItems<T>({
   onStart,
   onSuccess,

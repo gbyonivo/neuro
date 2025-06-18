@@ -5,6 +5,7 @@ import { ListContainer } from "./list-container";
 import { CatalogItem } from "./catalog-item";
 import Link from "next/link";
 import { TaskSearch } from "./task-search";
+import { LIMIT } from "@/utils/constants";
 
 export function CatalogItemsPage() {
   const { items, fetchCatalog, isLoading, error, offset, total } =
@@ -16,12 +17,14 @@ export function CatalogItemsPage() {
         list={items}
         loading={isLoading}
         error={error}
-        onRefresh={() => fetchCatalog({ limit: 10, offset: 0 })}
+        onRefresh={() => fetchCatalog({ limit: LIMIT, offset: 0 })}
         renderGridCard={({ item }) => (
           <CatalogItem item={item} key={item.uuid} />
         )}
         renderBetweenHeaderAndBody={() => <TaskSearch />}
-        onFetchMore={() => fetchCatalog({ limit: 10, offset: offset + 10 })}
+        onFetchMore={() =>
+          fetchCatalog({ limit: LIMIT, offset: offset + LIMIT })
+        }
         total={total}
         keyProp="uuid"
         title="Catalog"

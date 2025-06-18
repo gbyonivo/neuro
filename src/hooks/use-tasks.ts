@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect } from "react";
 import { useFetchItems } from "./use-fetch-items";
 import { Task } from "@/types/task";
+import { LIMIT } from "@/utils/constants";
 
 export const useTasks = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export const useTasks = () => {
 
   useEffect(() => {
     if (items.length === 0) {
-      fetchTasks({ limit: 10, offset: 0 });
+      fetchTasks({ limit: LIMIT, offset: 0 });
     }
   }, [items.length, fetchTasks]);
 

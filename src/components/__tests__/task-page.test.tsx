@@ -2,6 +2,7 @@ import { renderWithProviders } from "@/utils/test-utils/redux-provider";
 import { TasksPage } from "../tasks-page";
 import { NeuroAxiosV2 } from "@/utils/neuro-axios";
 import { waitFor } from "@testing-library/dom";
+import { LIMIT } from "@/utils/constants";
 
 const defaultState = {
   tasks: {
@@ -37,7 +38,7 @@ describe("TasksPage", () => {
           ],
           total: 1,
           offset: 0,
-          limit: 10,
+          limit: LIMIT,
         },
       })
     );
@@ -64,7 +65,7 @@ describe("TasksPage", () => {
           items: [],
           total: 0,
           offset: 0,
-          limit: 10,
+          limit: LIMIT,
         },
       })
     );

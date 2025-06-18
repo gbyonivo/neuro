@@ -5,3 +5,5 @@ export const RESULT_STATUS_LABELS = {
   [ResultStatus.FAILED]: "Failed",
   [ResultStatus.PROCESSED]: "Processed",
 };
+
+export const LIMIT = 10;

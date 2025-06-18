@@ -26,6 +26,21 @@ export const resultSlice = createSlice({
         taskId: action.payload,
       };
     },
+    addResult: (
+      state,
+      action: PayloadAction<{ result: Result; taskId: string }>
+    ) => {
+      if (state.taskId !== action.payload.taskId) {
+        return state;
+      }
+      return {
+        ...state,
+        items: [
+          action.payload.result,
+          ...state.items.slice(0, state.items.length - 1),
+        ],
+      };
+    },
   },
 });
 
@@ -34,6 +49,7 @@ export const {
   fetchItemsFailure,
   fetchItemsSuccess,
   changeTaskForResults,
+  addResult,
 } = resultSlice.actions;
 
 export default resultSlice.reducer;
