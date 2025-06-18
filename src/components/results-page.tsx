@@ -7,7 +7,7 @@ import { ResultItem } from "./result-item";
 import { TaskImageUpload } from "./task-image-upload";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useTask } from "@/hooks/use-task";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { LIMIT } from "@/utils/constants";
 

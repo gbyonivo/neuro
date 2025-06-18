@@ -2,10 +2,10 @@ import Image from "next/image";
 
 interface ImageCardProps {
   imageUrl: string;
-  className: string;
+  className?: string;
   lines: string[];
   header: string;
-  flag: string;
+  flag?: string;
   onClick?: () => void;
   flagClassName?: string;
   id?: string;
@@ -38,6 +38,7 @@ export function ImageCard({
         alt="Food Image"
         width={100}
         height={100}
+        fetchPriority="high"
       />
       <div className="mt-4 overflow-hidden text-ellipsis text-xs flex flex-col gap-2">
         <h2 className="text-sm font-bold text-gray-800">{header}</h2>

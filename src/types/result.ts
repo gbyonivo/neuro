@@ -74,3 +74,14 @@ export interface Result {
   confidence_score?: number;
   coco?: Coco;
 }
+
+export function isResult(result: unknown): result is Result {
+  return (
+    typeof result === "object" &&
+    result !== null &&
+    "uuid" in result &&
+    "task_uuid" in result &&
+    "image_url" in result &&
+    "status" in result
+  );
+}

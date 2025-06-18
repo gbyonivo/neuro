@@ -16,6 +16,7 @@ A modern web application built with Next.js 15, React 19, and TypeScript, featur
 - 📅 Date handling with date-fns
 - 🕵🏾‍♂️ Yup for validation
 - 🫀 Jest for Test / cool icon for Jest eh?!
+- 📚 Storybook for component development and documentation
 
 ## Prerequisites
 
@@ -65,12 +66,14 @@ src/
 - `yarn start` - Start the production server
 - `yarn lint` - Run ESLint for code quality checks
 - `yarn test` - Run tests and generate coverage report
+- `yarn storybook` - Start Storybook development server
+- `yarn build-storybook` - Build Storybook for production
 
 After running `yarn test`, you can find the test coverage report in the `coverage` directory. Open `coverage/lcov-report/index.html` in your browser to view a detailed coverage report with line-by-line information.
 
 ## API Integration
 
-The application is configured to proxy requests to the Neurolabs API staging environment. The proxy configuration can be found in `package.json`.
+The application is configured to proxy requests to the Neurolabs API staging environment.`.
 
 ## Contributing
 
