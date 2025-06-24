@@ -28,7 +28,7 @@ export const useCatalogItems = () => {
     onStart: useCallback(() => {
       dispatch(fetchItems());
     }, [dispatch]),
-    url: "/csssatalog-items",
+    url: "/catalog-items",
   });
 
   useEffect(() => {
