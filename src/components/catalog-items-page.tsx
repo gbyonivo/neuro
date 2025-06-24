@@ -6,25 +6,34 @@ import { CatalogItem } from "./catalog-item";
 import Link from "next/link";
 import { TaskSearch } from "./task-search";
 import { LIMIT } from "@/utils/constants";
+import { memo, useCallback } from "react";
+import { CatalogItemType } from "@/types/catalog-item";
 
-export function CatalogItemsPage() {
+function CatalogItemsPageComponent() {
   const { items, fetchCatalog, isLoading, error, offset, total } =
     useCatalogItems();
 
+  const renderGridCard = useCallback(
+    ({ item }: { item: CatalogItemType }) => (
+      <CatalogItem item={item} key={item.uuid} />
+    ),
+    []
+  );
+
+  const onFetchMore = useCallback(() => {
+    fetchCatalog({ limit: LIMIT, offset: offset + LIMIT });
+  }, [fetchCatalog, offset]);
+
   return (
     <div className="text-black dark:text-white">
-      <ListContainer
+      <ListContainer<CatalogItemType>
         list={items}
         loading={isLoading}
         error={error}
         onRefresh={() => fetchCatalog({ limit: LIMIT, offset: 0 })}
-        renderGridCard={({ item }) => (
-          <CatalogItem item={item} key={item.uuid} />
-        )}
+        renderGridCard={renderGridCard}
         renderBetweenHeaderAndBody={() => <TaskSearch />}
-        onFetchMore={() =>
-          fetchCatalog({ limit: LIMIT, offset: offset + LIMIT })
-        }
+        onFetchMore={onFetchMore}
         total={total}
         keyProp="uuid"
         title="Catalog"
@@ -37,3 +46,5 @@ export function CatalogItemsPage() {
     </div>
   );
 }
+
+export const CatalogItemsPage = memo(CatalogItemsPageComponent);

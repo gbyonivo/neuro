@@ -33,10 +33,10 @@ export const useTasks = () => {
   });
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !error && isLoading) {
       fetchTasks({ limit: LIMIT, offset: 0 });
     }
-  }, [items.length, fetchTasks]);
+  }, [items.length, fetchTasks, error, isLoading]);
 
   return { items, fetchTasks, isLoading, error, offset, total };
 };

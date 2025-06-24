@@ -1,5 +1,6 @@
 import { CatalogItemStatus, CatalogItemType } from "@/types/catalog-item";
 import { ImageCard } from "./common/image-card";
+import { memo } from "react";
 
 interface CatalogItemProps {
   item: CatalogItemType;
@@ -17,7 +18,7 @@ const FLAG_LABELS = {
   [CatalogItemStatus.READY]: "Processed",
 };
 
-export function CatalogItem({ item }: CatalogItemProps) {
+function CatalogItemInner({ item }: CatalogItemProps) {
   const isNeedCapture = item.status === CatalogItemStatus.NEEDS_CAPTURE;
   const className = isNeedCapture
     ? "border-2 border-red-700 bg-gray-300 dark:bg-gray-300"
@@ -33,3 +34,7 @@ export function CatalogItem({ item }: CatalogItemProps) {
     />
   );
 }
+
+export const CatalogItem = memo(CatalogItemInner, (prevProps, nextProps) => {
+  return prevProps.item.uuid === nextProps.item.uuid;
+});

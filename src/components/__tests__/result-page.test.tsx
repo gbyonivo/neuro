@@ -92,7 +92,7 @@ describe("ResultsPage", () => {
       await waitFor(() => {
         if (tasks.length === 0) {
           expect(NeuroAxiosV2.get).toHaveBeenCalledWith(
-            "/image-recognition/tasks/1"
+            "/image-recognition/tasks/1/results?limit=10&offset=0"
           );
         } else {
           expect(NeuroAxiosV2.get).not.toHaveBeenCalledWith(

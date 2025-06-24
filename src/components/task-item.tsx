@@ -3,12 +3,13 @@ import { ItemWithSidePanel } from "./item-with-side-panel";
 import { TaskImageUpload } from "./task-image-upload";
 import { getDate } from "@/utils/date";
 import Link from "next/link";
+import { memo } from "react";
 
 interface TaskCardProps {
   item: Task;
 }
 
-export function TaskItem({ item }: TaskCardProps) {
+function TaskItemInner({ item }: TaskCardProps) {
   return (
     <tr
       key={item.uuid}
@@ -58,3 +59,7 @@ export function TaskItem({ item }: TaskCardProps) {
     </tr>
   );
 }
+
+export const TaskItem = memo(TaskItemInner, (prevProps, nextProps) => {
+  return prevProps.item.uuid === nextProps.item.uuid;
+});

@@ -42,10 +42,10 @@ export const useResults = () => {
   }, [id, dispatch, taskId]);
 
   useEffect(() => {
-    if (items.length === 0 && id === taskId) {
+    if (items.length === 0 && id === taskId && !error && !isLoading) {
       fetchResults({ limit: LIMIT, offset: 0 });
     }
-  }, [items.length, fetchResults, id, taskId]);
+  }, [items.length, fetchResults, id, taskId, error, isLoading]);
 
   return { items, fetchResults, isLoading, error, offset, total, taskId };
 };

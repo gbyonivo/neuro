@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { memo } from "react";
 
 interface ImageCardProps {
   imageUrl: string;
@@ -11,7 +12,7 @@ interface ImageCardProps {
   id?: string;
 }
 
-export function ImageCard({
+function ImageCardInner({
   imageUrl,
   className,
   lines,
@@ -35,7 +36,7 @@ export function ImageCard({
       <Image
         className="w-full h-40 rounded-lg object-contain"
         src={imageUrl}
-        alt="Food Image"
+        alt={`Food Image ${header}`}
         width={100}
         height={100}
         fetchPriority="high"
@@ -58,3 +59,14 @@ export function ImageCard({
     </div>
   );
 }
+
+export const ImageCard = memo(ImageCardInner, (prevProps, nextProps) => {
+  return (
+    prevProps.imageUrl === nextProps.imageUrl &&
+    prevProps.header === nextProps.header &&
+    prevProps.flag === nextProps.flag &&
+    prevProps.flagClassName === nextProps.flagClassName &&
+    prevProps.lines.length === nextProps.lines.length &&
+    prevProps.lines.every((line, index) => line === nextProps.lines[index])
+  );
+});

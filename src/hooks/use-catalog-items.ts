@@ -28,14 +28,14 @@ export const useCatalogItems = () => {
     onStart: useCallback(() => {
       dispatch(fetchItems());
     }, [dispatch]),
-    url: "/catalog-items",
+    url: "/csssatalog-items",
   });
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !isLoading && !error) {
       fetchCatalog({ limit: LIMIT, offset: 0 });
     }
-  }, [items.length, fetchCatalog]);
+  }, [items.length, isLoading, error, fetchCatalog]);
 
   return { items, fetchCatalog, isLoading, error, offset, total };
 };

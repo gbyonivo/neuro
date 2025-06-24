@@ -4,7 +4,7 @@ export interface PaginatedResponse<T> {
   offset: number;
   limit: number;
 }
-
+// typec
 export function isPaginatedResponse<T>(
   response: unknown
 ): response is PaginatedResponse<T> {

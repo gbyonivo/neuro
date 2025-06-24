@@ -1,7 +1,7 @@
 import { RootState } from "@/lib/store";
 import { isTask, Task } from "@/types/task";
 import { NeuroAxiosV2 } from "@/utils/neuro-axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 export function useTask({
@@ -9,19 +9,24 @@ export function useTask({
   taskId,
 }: {
   fetchImmediately?: boolean;
-  taskId?: string;
+  taskId?: string | null;
 }) {
   const { items } = useSelector((state: RootState) => state.tasks);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [task, setTask] = useState<Task | null>(null);
+  const cachedTask = useMemo(() => {
+    return items.find((task) => task.uuid === taskId);
+  }, [items, taskId]);
 
   const fetchTask = useCallback(() => {
     const asyncFetchTask = async () => {
       try {
-        const cachedTask = items.find((task) => task.uuid === taskId);
         if (cachedTask) {
           setTask(cachedTask);
+          return;
+        }
+        if (!taskId) {
           return;
         }
         setFetching(true);
@@ -43,10 +48,10 @@ export function useTask({
       }
     };
     asyncFetchTask();
-  }, [taskId]);
+  }, [cachedTask, taskId]);
 
   useEffect(() => {
-    if (fetchImmediately && task === null && taskId !== undefined) {
+    if (fetchImmediately && task === null && !taskId) {
       fetchTask();
     }
   }, [fetchImmediately, task, taskId, fetchTask]);

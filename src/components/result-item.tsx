@@ -3,12 +3,13 @@ import { ImageCard } from "./common/image-card";
 import { Result, ResultStatus } from "@/types/result";
 import { ResultDetails } from "./result-details";
 import { RESULT_STATUS_LABELS } from "@/utils/constants";
+import { memo } from "react";
 
 interface ResultItemProps {
   item: Result;
 }
 
-export function ResultItem({ item }: ResultItemProps) {
+export function ResultItemInner({ item }: ResultItemProps) {
   return (
     <ItemWithSidePanel<Result>
       item={item}
@@ -33,3 +34,7 @@ export function ResultItem({ item }: ResultItemProps) {
     />
   );
 }
+
+export const ResultItem = memo(ResultItemInner, (prevProps, nextProps) => {
+  return prevProps.item.uuid === nextProps.item.uuid;
+});
